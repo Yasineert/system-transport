@@ -1,80 +1,21 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { Bus, Download, LineChart, BarChartIcon, PieChartIcon, Users, Filter, AlertTriangle } from "lucide-react"
+import { Bus, Download, LineChart, BarChartIcon, PieChartIcon, Users } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/components/ui/use-toast"
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart as RechartsLineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "@/components/ui/chart"
 
 export default function AnalyticsPage() {
   const { toast } = useToast()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
   const [year, setYear] = useState("2023")
   const [dateRange, setDateRange] = useState("last30days")
   const [chartType, setChartType] = useState("line")
   
-  // Sample data for charts
-  const passengerData = [
-    { name: "Jan", passengers: 42000 },
-    { name: "Feb", passengers: 45000 },
-    { name: "Mar", passengers: 48000 },
-    { name: "Apr", passengers: 51000 },
-    { name: "May", passengers: 53000 },
-    { name: "Jun", passengers: 58000 },
-    { name: "Jul", passengers: 62000 },
-    { name: "Aug", passengers: 65000 },
-    { name: "Sep", passengers: 59000 },
-    { name: "Oct", passengers: 55000 },
-    { name: "Nov", passengers: 50000 },
-    { name: "Dec", passengers: 47000 },
-  ]
-
-  const performanceData = [
-    { name: "Route 1", onTime: 92, delayed: 8 },
-    { name: "Route 3", onTime: 88, delayed: 12 },
-    { name: "Route 7", onTime: 85, delayed: 15 },
-    { name: "Route 12", onTime: 90, delayed: 10 },
-    { name: "Route 15", onTime: 82, delayed: 18 },
-  ]
-
-  const revenueData = [
-    { name: "Bus Tickets", value: 65 },
-    { name: "Taxi Fares", value: 25 },
-    { name: "Tourist Passes", value: 10 },
-  ]
-
-  const COLORS = ["#10b981", "#f59e0b", "#3b82f6", "#ef4444"]
-
-  // Simulate loading data
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 1000)
-    
-    return () => clearTimeout(timer)
-  }, [])
-
   // Handle exporting data
   const handleExportData = () => {
     toast({
@@ -89,71 +30,6 @@ export default function AnalyticsPage() {
         description: "Analytics data has been exported successfully to CSV format.",
       });
     }, 1500);
-  }
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="flex min-h-screen w-full flex-col">
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-          <div className="flex items-center gap-2">
-            <Bus className="h-6 w-6 text-rose-600" />
-            <span className="text-lg font-semibold">Marrakech Transport</span>
-          </div>
-          <nav className="ml-auto flex items-center gap-4 md:gap-6">
-            {/* Navigation links */}
-          </nav>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <Skeleton className="h-8 w-48" />
-              <Skeleton className="mt-2 h-4 w-64" />
-            </div>
-            <div className="flex gap-2">
-              <Skeleton className="h-10 w-32" />
-              <Skeleton className="h-10 w-40" />
-            </div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Skeleton className="h-28 rounded-lg" />
-            <Skeleton className="h-28 rounded-lg" />
-            <Skeleton className="h-28 rounded-lg" />
-            <Skeleton className="h-28 rounded-lg" />
-          </div>
-
-          <Skeleton className="h-[400px] w-full rounded-lg" />
-        </main>
-      </div>
-    )
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="flex min-h-screen w-full flex-col">
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-          <div className="flex items-center gap-2">
-            <Bus className="h-6 w-6 text-rose-600" />
-            <span className="text-lg font-semibold">Marrakech Transport</span>
-          </div>
-          <nav className="ml-auto flex items-center gap-4 md:gap-6">
-            {/* Navigation links */}
-          </nav>
-        </header>
-        <main className="flex flex-1 flex-col items-center justify-center gap-4 p-4 md:gap-8 md:p-8">
-          <div className="text-center">
-            <AlertTriangle className="mx-auto h-16 w-16 text-amber-500" />
-            <h2 className="mt-4 text-2xl font-bold">Error Loading Data</h2>
-            <p className="mt-2 text-muted-foreground">There was a problem loading the analytics data.</p>
-            <Button className="mt-4" onClick={() => window.location.reload()}>
-              Try Again
-            </Button>
-          </div>
-        </main>
-      </div>
-    )
   }
 
   return (
@@ -321,18 +197,6 @@ export default function AnalyticsPage() {
                     <SelectItem value="pie">Pie Chart</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  onClick={() => {
-                    setYear("2023")
-                    setDateRange("last30days")
-                    setChartType("line")
-                  }}
-                >
-                  <Filter className="h-4 w-4" />
-                  <span className="sr-only">Reset Filters</span>
-                </Button>
               </div>
             </div>
 
@@ -343,46 +207,9 @@ export default function AnalyticsPage() {
                   <CardDescription>Total passenger count across all routes by month</CardDescription>
                 </CardHeader>
                 <CardContent className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    {chartType === "line" ? (
-                      <RechartsLineChart data={passengerData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="passengers" stroke="#ef4444" strokeWidth={2} />
-                      </RechartsLineChart>
-                    ) : chartType === "bar" ? (
-                      <BarChart data={passengerData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="passengers" fill="#ef4444" />
-                      </BarChart>
-                    ) : (
-                      <PieChart>
-                        <Pie
-                          data={passengerData.map(item => ({ name: item.name, value: item.passengers }))}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={150}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        >
-                          {passengerData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    )}
-                  </ResponsiveContainer>
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-muted-foreground">Chart visualization is currently under maintenance.</p>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -394,50 +221,9 @@ export default function AnalyticsPage() {
                   <CardDescription>On-time performance metrics for top routes</CardDescription>
                 </CardHeader>
                 <CardContent className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    {chartType === "line" ? (
-                      <RechartsLineChart data={performanceData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="onTime" stroke="#10b981" name="On Time %" />
-                        <Line type="monotone" dataKey="delayed" stroke="#ef4444" name="Delayed %" />
-                      </RechartsLineChart>
-                    ) : chartType === "bar" ? (
-                      <BarChart data={performanceData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="onTime" fill="#10b981" name="On Time %" />
-                        <Bar dataKey="delayed" fill="#ef4444" name="Delayed %" />
-                      </BarChart>
-                    ) : (
-                      <PieChart>
-                        <Pie
-                          data={[
-                            { name: "On Time", value: performanceData.reduce((sum, item) => sum + item.onTime, 0) / performanceData.length },
-                            { name: "Delayed", value: performanceData.reduce((sum, item) => sum + item.delayed, 0) / performanceData.length },
-                          ]}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={150}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        >
-                          <Cell fill="#10b981" />
-                          <Cell fill="#ef4444" />
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    )}
-                  </ResponsiveContainer>
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-muted-foreground">Chart visualization is currently under maintenance.</p>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -449,46 +235,9 @@ export default function AnalyticsPage() {
                   <CardDescription>Breakdown of revenue by service type</CardDescription>
                 </CardHeader>
                 <CardContent className="h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    {chartType === "line" ? (
-                      <RechartsLineChart data={revenueData.map((item, index) => ({ name: item.name, value: item.value, month: index }))}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="value" stroke="#3b82f6" />
-                      </RechartsLineChart>
-                    ) : chartType === "bar" ? (
-                      <BarChart data={revenueData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="value" fill="#3b82f6" />
-                      </BarChart>
-                    ) : (
-                      <PieChart>
-                        <Pie
-                          data={revenueData}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={150}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        >
-                          {revenueData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    )}
-                  </ResponsiveContainer>
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-muted-foreground">Chart visualization is currently under maintenance.</p>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -502,35 +251,9 @@ export default function AnalyticsPage() {
               <CardDescription>Passenger volume by hour of day</CardDescription>
             </CardHeader>
             <CardContent className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={[
-                    { hour: "6AM", passengers: 2100 },
-                    { hour: "7AM", passengers: 4500 },
-                    { hour: "8AM", passengers: 6800 },
-                    { hour: "9AM", passengers: 5200 },
-                    { hour: "10AM", passengers: 3800 },
-                    { hour: "11AM", passengers: 3200 },
-                    { hour: "12PM", passengers: 3500 },
-                    { hour: "1PM", passengers: 3700 },
-                    { hour: "2PM", passengers: 3400 },
-                    { hour: "3PM", passengers: 3600 },
-                    { hour: "4PM", passengers: 4200 },
-                    { hour: "5PM", passengers: 6500 },
-                    { hour: "6PM", passengers: 5800 },
-                    { hour: "7PM", passengers: 4300 },
-                    { hour: "8PM", passengers: 3200 },
-                    { hour: "9PM", passengers: 2400 },
-                    { hour: "10PM", passengers: 1800 },
-                  ]}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="passengers" fill="#8884d8" />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">Chart visualization is currently under maintenance.</p>
+              </div>
             </CardContent>
           </Card>
 
@@ -538,5 +261,16 @@ export default function AnalyticsPage() {
             <CardHeader>
               <CardTitle>Route Popularity</CardTitle>
               <CardDescription>Most used routes by passenger volume</CardDescription>
-            </CardHeader>\
+            </CardHeader>
+            <CardContent className="h-[300px]">
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">Chart visualization is currently under maintenance.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    </div>
+  )
+}
 
