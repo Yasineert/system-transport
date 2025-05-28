@@ -1,0 +1,92 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "transport-overview",
+    "title": "Transport System Overview",
+    "tags": ["transport", "system", "overview"],
+    "timezone": "browser",
+    "schemaVersion": 38,
+    "version": 1,
+    "refresh": "10s",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Frontend Response Time",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"frontend\"}[5m])) by (le))",
+            "legendFormat": "95th Percentile",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}
+      },
+      {
+        "type": "graph",
+        "title": "Backend Error Rate",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"backend\",status=~\"5..\"}[5m])) / sum(rate(http_requests_total{job=\"backend\"}[5m]))",
+            "legendFormat": "Error Rate",
+            "refId": "B"
+          }
+        ],
+        "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}
+      },
+      {
+        "type": "stat",
+        "title": "Active Users",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(active_users)",
+            "legendFormat": "Active Users",
+            "refId": "C"
+          }
+        ],
+        "gridPos": {"x": 0, "y": 8, "w": 6, "h": 4}
+      },
+      {
+        "type": "stat",
+        "title": "Fleet Vehicles Online",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(fleet_vehicle_status{status=\"online\"})",
+            "legendFormat": "Online Vehicles",
+            "refId": "D"
+          }
+        ],
+        "gridPos": {"x": 6, "y": 8, "w": 6, "h": 4}
+      },
+      {
+        "type": "stat",
+        "title": "Database Query Time (avg)",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "avg(rate(db_query_duration_seconds_sum[5m]) / rate(db_query_duration_seconds_count[5m]))",
+            "legendFormat": "Avg Query Time",
+            "refId": "E"
+          }
+        ],
+        "gridPos": {"x": 12, "y": 8, "w": 6, "h": 4}
+      },
+      {
+        "type": "stat",
+        "title": "API Requests per Minute",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total[1m]))",
+            "legendFormat": "Req/min",
+            "refId": "F"
+          }
+        ],
+        "gridPos": {"x": 18, "y": 8, "w": 6, "h": 4}
+      }
+    ]
+  }
+}
