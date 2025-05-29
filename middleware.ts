@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { Role } from './types/auth'
 
 // Define public paths that don't require authentication
-const publicPaths = ['/login', '/signup', '/api/v1/auth/login', '/api/v1/auth/register']
+const publicPaths = ['/login', '/signup', '/v1/auth/login', '/v1/auth/register']
 
 // Define role-based access control
 const roleAccessMap = {
@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     // Verify the token and get the user's role
-    const response = await fetch(`http://localhost:8081/api/v1/auth/me`, {
+    const response = await fetch(`http://localhost:8080/v1/auth/me`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

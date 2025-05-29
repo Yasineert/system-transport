@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     }
 
     // Fetch user data
-    fetch('http://localhost:8081/api/v1/auth/me', {
+    fetch('http://localhost:8080/v1/auth/me', {
       headers: {
         'Authorization': `Bearer ${token}`
       }

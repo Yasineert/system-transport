@@ -43,7 +43,7 @@ export default function AuthPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('http://localhost:8081/api/v1/auth/authenticate', {
+      const response = await fetch('http://localhost:8080/v1/auth/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export default function AuthPage() {
       setAuthToken(data.token)
 
       // Get user info using the token
-      const userResponse = await fetch('http://localhost:8081/api/v1/auth/me', {
+      const userResponse = await fetch('http://localhost:8080/v1/auth/me', {
         headers: {
           'Authorization': `Bearer ${data.token}`
         }
@@ -122,7 +122,7 @@ export default function AuthPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:8081/api/v1/auth/register', {
+      const response = await fetch('http://localhost:8080/v1/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

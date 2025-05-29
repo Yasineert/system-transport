@@ -4,7 +4,7 @@
 
 import { toast } from "@/components/ui/use-toast"
 
-const API_BASE_URL = "http://localhost:8081/api" // Update this with your backend URL
+const API_BASE_URL = "http://localhost:8080" // Update this with your backend URL
 
 // Common headers for all requests
 const defaultHeaders = {
